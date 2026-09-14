@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "directus:bootstrap": "node --env-file-if-exists=.env scripts/directus-bootstrap.js",
     "directus:permissions": "node --env-file-if-exists=.env scripts/directus-permissions.js",
-    "directus:migrate": "node --env-file-if-exists=.env scripts/directus-migrate.js"
+    "directus:migrate": "node --env-file-if-exists=.env scripts/directus-migrate.js",
+    "directus:flow": "node --env-file-if-exists=.env scripts/directus-flow.js"
   },
   "dependencies": {
     "@directus/sdk": "^20.1.0",

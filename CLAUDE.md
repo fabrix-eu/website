@@ -53,7 +53,16 @@ Follow `/dev-fullstack-ruby-react` (front half) and the Learning Hub; the deltas
 
 ## Publishing
 
-Prerendering means published content must be **built** to be visible. Deploy runs on push to `main` and on a
-`repository_dispatch` of type `content-updated` (a Directus "Build & deploy" flow, as on the Learning Hub).
-The deploy job is **off** until the repository variable `DEPLOY_ENABLED` is `true` — the DNS still points at
-Vercel.
+Prerendering means published content must be **built** to be visible — saving in Directus alone changes
+nothing on the site. Editors press **"Build & deploy — website"** in the header of any website collection
+(`news`, `cities`, `deliverables`, `publications`, `legal_pages`, `partners`). That manual flow
+(`npm run directus:flow`, idempotent) POSTs a `repository_dispatch` of type `content-updated` to this repo,
+which runs the CI & Deploy workflow. It reuses the Learning Hub's `GITHUB_DISPATCH_TOKEN` from the container
+env (`FLOWS_ENV_ALLOW_LIST` in `rdmpr-infra/apps/fabrix-cms`). Failure mode to watch: if the flow breaks,
+Directus says "published" while the site stays frozen — check the Actions tab.
+
+**Beta**: the site is previewed at `https://website.fabrixproject.eu` (GitHub Pages, `public/CNAME`, CNAME
+record at OVH → `fabrix-eu.github.io.`, Directus `CORS_ORIGIN` includes it). `BETA=true` in the workflow
+makes every page `noindex` and `robots.txt` disallow all; canonicals already point at `fabrixproject.eu`.
+Cutover: set `BETA` to `false`, move `public/CNAME` and the Pages domain to `fabrixproject.eu`, repoint the
+apex/`www` records from Vercel to GitHub Pages, and add the origin to `CORS_ORIGIN`.
