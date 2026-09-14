@@ -19,13 +19,21 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = resolve(root, "dist");
 const DIRECTUS = (process.env.VITE_DIRECTUS_URL ?? "https://back.fabrixproject.eu").replace(/\/$/, "");
 const SITE = (process.env.SITE_URL ?? "https://fabrixproject.eu").replace(/\/$/, "");
+/*
+ * BETA=true while the site is previewed at website.fabrixproject.eu and the
+ * old site still serves fabrixproject.eu: every page is noindex and robots.txt
+ * disallows all, so search engines never index the preview as duplicate
+ * content. Canonicals keep pointing at SITE_URL, the domain that will stay.
+ */
+const BETA = process.env.BETA === "true";
 const DEFAULT_DESCRIPTION =
   "Fostering local, beautiful, and sustainably designed regenerative textile and clothing ecosystems in Rotterdam, Athens and across Europe.";
 
 // Each page writes its own description and og tags; strip the shell's once.
 const shell = (await readFile(resolve(dist, "index.html"), "utf8"))
   .replace(/\n?\s*<meta\s+name="description"[\s\S]*?\/>/g, "")
-  .replace(/\n?\s*<meta\s+property="og:[\s\S]*?\/>/g, "");
+  .replace(/\n?\s*<meta\s+property="og:[\s\S]*?\/>/g, "")
+  .replace("</head>", BETA ? `  <meta name="robots" content="noindex, nofollow" />\n  </head>` : "</head>");
 
 const escape = (value) =>
   String(value ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -124,6 +132,9 @@ await writeFile(
     routes.map((u) => `  <url><loc>${SITE}${u === "/" ? "/" : `${u}/`}</loc></url>`).join("\n") +
     `\n</urlset>\n`,
 );
-await writeFile(resolve(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
+await writeFile(
+  resolve(dist, "robots.txt"),
+  BETA ? "User-agent: *\nDisallow: /\n" : `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`,
+);
 
-console.log(`Prerendered ${routes.length} routes (${news.length} news, ${cities.length} cities), sitemap and robots.txt.`);
+console.log(`Prerendered ${routes.length} routes (${news.length} news, ${cities.length} cities), sitemap and robots.txt${BETA ? " — BETA: noindex" : ""}.`);
