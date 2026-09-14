@@ -1,0 +1,56 @@
+name: CI & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Directus fires this after an editor publishes, so content updates redeploy
+  # without a code change. See CLAUDE.md → "Publishing".
+  repository_dispatch:
+    types: [content-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+        env:
+          VITE_DIRECTUS_URL: https://back.fabrixproject.eu
+          VITE_PLATFORM_URL: https://platform.fabrixproject.eu
+          VITE_MATOMO_URL: ${{ vars.MATOMO_URL }}
+          VITE_MATOMO_SITE_ID: ${{ vars.MATOMO_SITE_ID }}
+          SITE_URL: https://fabrixproject.eu
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # Off until the DNS cutover: set the repository variable DEPLOY_ENABLED=true
+  # (and enable GitHub Pages) when fabrixproject.eu is ready to leave Vercel.
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

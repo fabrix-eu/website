@@ -33,6 +33,13 @@ for (const [collection, permissions] of Object.entries(READABLE)) {
   else await ensure(`read ${collection}`, () => api("POST", "/permissions", { policy, collection, action: "read", fields: ["*"], permissions, validation: {} }));
 }
 
+// Sign-ups: the public may create one with exactly these fields, and read none back.
+if (has("newsletter_subscriptions", "create")) console.log("  · create newsletter_subscriptions (exists)");
+else await ensure("create newsletter_subscriptions", () => api("POST", "/permissions", {
+  policy, collection: "newsletter_subscriptions", action: "create",
+  fields: ["email", "first_name", "last_name"], permissions: {}, validation: {},
+}));
+
 for (const collection of ["partners", "directus_files"]) {
   console.log(has(collection, "read") ? `  · read ${collection} (granted by the Learning Hub)` : `  ! read ${collection} is missing — run the Learning Hub's directus:permissions`);
 }

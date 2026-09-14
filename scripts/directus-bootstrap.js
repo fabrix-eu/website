@@ -95,6 +95,25 @@ const COLLECTIONS = [
     ],
   },
   {
+    collection: "newsletter_subscriptions",
+    meta: { icon: "mail", note: "Newsletter sign-ups from the website. Public create, admin read. A flow forwards each one to Brevo." },
+    fields: [
+      { field: "id", type: "integer", meta: { hidden: true }, schema: { is_primary_key: true, has_auto_increment: true } },
+      {
+        field: "email", type: "string",
+        meta: {
+          interface: "input", required: true, width: "half",
+          validation: { _and: [{ email: { _regex: "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" } }] },
+          validation_message: "A valid email address is required.",
+        },
+      },
+      { field: "first_name", type: "string", meta: { interface: "input", required: true, width: "half" } },
+      { field: "last_name", type: "string", meta: { interface: "input", required: true, width: "half" } },
+      { field: "synced", type: "boolean", meta: { interface: "boolean", width: "half", readonly: true, note: "Set by the Brevo flow once the contact is created." }, schema: { default_value: false } },
+      { field: "date_created", type: "timestamp", meta: { interface: "datetime", special: ["date-created"], readonly: true, width: "half" } },
+    ],
+  },
+  {
     collection: "legal_pages",
     meta: { icon: "gavel", note: "Privacy and cookies policies." },
     fields: [
@@ -172,7 +191,7 @@ for (const g of GALLERIES) {
 }
 
 console.log("→ display templates");
-const DISPLAY = { news: "{{title}}", cities: "{{name}}", deliverables: "{{code}} · {{title}}", publications: "{{citation}}", legal_pages: "{{title}}" };
+const DISPLAY = { news: "{{title}}", cities: "{{name}}", deliverables: "{{code}} · {{title}}", publications: "{{citation}}", legal_pages: "{{title}}", newsletter_subscriptions: "{{email}}" };
 for (const [collection, template] of Object.entries(DISPLAY)) {
   await ensure(`${collection} → ${template}`, () => api("PATCH", `/collections/${collection}`, { meta: { display_template: template } }));
 }

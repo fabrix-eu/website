@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+/*
+ * Two token sets live side by side.
+ *
+ * 1. The website's own look — Archia headings, IBM Plex Sans text, the dark
+ *    blue palette. Carried over unchanged from the Next.js site: the redesign
+ *    is not this project's job. Names are kept (`darkblue`, `owncyan`…) so the
+ *    markup reads the same as before.
+ *
+ * 2. The FABRIX design system (`fx-*`), transcribed from the platform's
+ *    /design page (platform-front/src/index.css). Structure — radii, the text
+ *    scale, lines — is taken from here wherever it does not change what the
+ *    visitor sees, so a later move to the full system is a token swap, not a
+ *    rewrite. Take the values from /design, never re-pick them here.
+ */
+
+@font-face {
+  font-family: "Archia";
+  src: url("/fonts/Archia-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/fonts/IBMPlexSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/fonts/IBMPlexSans-Bold.woff2") format("woff2");
+  font-weight: 600 700;
+  font-display: swap;
+}
+
+@theme {
+  /* ── Website ─────────────────────────────────────────────────────────── */
+  --font-sans: "Archia", system-ui, sans-serif;
+  --font-archia: "Archia", system-ui, sans-serif;
+  --font-plex: "IBM Plex Sans", system-ui, sans-serif;
+
+  --color-darkblue: #141357;
+  --color-lightblue: #7c98b9;
+  --color-almostblack: #012025;
+  --color-owncyan: #e8f4f6;
+  --color-ownindigo: #dcdbfc;
+
+  /* ── FABRIX design system ────────────────────────────────────────────── */
+  --color-fx-ground: #ffffff;
+  --color-fx-panel: #faf9fc;
+  --color-fx-paper: #ffffff;
+  --color-fx-ink: #1a1a22;
+  --color-fx-ink2: #55545f;
+  --color-fx-muted: #6f6f7b;
+  --color-fx-line: #ecebf0;
+  --color-fx-line2: #dedce4;
+  --color-fx-violet: #6c4cf1;
+  --color-fx-violet-soft: #f1edff;
+  --color-fx-violet-border: #ded5ff;
+  --color-fx-green: #2a9d63;
+  --color-fx-rose: #cb4a86;
+
+  --radius-fx-sm: 9px;
+  --radius-fx: 14px;
+  --radius-fx-lg: 20px;
+  --radius-fx-xl: 28px;
+  --radius-fx-action: 11px;
+
+  --text-fx-body: 14px;
+  --text-fx-body--line-height: 1.55;
+  --text-fx-small: 12.5px;
+  --text-fx-small--line-height: 1.45;
+  --text-fx-label: 11px;
+  --text-fx-label--line-height: 1;
+  --text-fx-label--letter-spacing: 0.06em;
+  --text-fx-label--font-weight: 700;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-darkblue);
+    background: #ffffff;
+  }
+
+  /*
+   * Tailwind v4 draws borders in currentColor where v3 used gray-200. Every
+   * border on this site names its colour, so this only matters for the ones
+   * that forgot — keep them on the design system's line colour.
+   */
+  *, ::after, ::before {
+    border-color: var(--color-fx-line2);
+  }
+
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Rich text from Directus: embedded videos in news bodies keep their ratio on any width. */
+  .prose iframe {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-fx);
+  }
+  .prose img {
+    border-radius: var(--radius-fx);
+  }
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
