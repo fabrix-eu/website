@@ -1,0 +1,14 @@
+{
+  "name": "fabrix-website",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "directus:bootstrap": "node --env-file-if-exists=.env scripts/directus-bootstrap.js",
+    "directus:permissions": "node --env-file-if-exists=.env scripts/directus-permissions.js",
+    "directus:migrate": "node --env-file-if-exists=.env scripts/directus-migrate.js"
+  }
+}

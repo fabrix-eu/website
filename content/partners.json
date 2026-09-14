@@ -1,0 +1,74 @@
+[
+  {
+    "name": "AIDIMME",
+    "slug": "aidimme",
+    "logo": "/partners/aidimme.png",
+    "logo_b": "/partners/aidimme_b.png",
+    "url": "https://www.aidimme.es",
+    "description": "Leading technological institute with vast experience in RDI in the field of manufacturing, industrial symbiosis, and digital innovation. AIDI brings relevant, validated digital tools to the consortium and a proven track record in improving competitiveness of companies in the field of design and development of innovative products and materials, advanced and sustainable processes, manufacturing, logistics, distribution and services."
+  },
+  {
+    "name": "Athens University of Economics and Business",
+    "slug": "aueb",
+    "logo": "/partners/aub.png",
+    "logo_b": "/partners/aub_b.png",
+    "url": "https://www.aueb.gr",
+    "description": "AUEB is the oldest educational institution in Greece in the fields of Economics and Business Administration. The Centre on Sustainable Textile & Fashion (FRFashtech) situated in Management Science Lab at the Department of Management Science and Technology brings expertise in the transformation of the industry, the promotion of new supply chain and production models and runs new educational programs, especially for the development of green, ethical and sustainable supply chains, production processes, technological platforms and logistics. AUEB coordinated the circular fashion accelerator “Small-but-Perfect” (co-funded by EU COSME), runs the Fashion Revolution Summer School (in collaboration with Fashion Revolution Greece), coordinates the Transparency Manager in the Fashion Industry (funded by Erasmus+) and is the coordinator of the Circular & Sustainable Fashion HUB with industry players and civil society."
+  },
+  {
+    "name": "Erasmus University Rotterdam",
+    "slug": "eur",
+    "logo": "/partners/eur.png",
+    "logo_b": "/partners/eur_b.png",
+    "url": "https://www.eur.nl/en",
+    "description": "Research university with a strong international orientation and a pronounced societal focus. EUR successfully performs research in multidisciplinary teams within international networks, which is reflected in EUR’s consistent top-100 position in most major university rankings. The Erasmus School of History, Culture and Communication (ESHCC) brings expertise in the cultural and creative industries, sustainability transition, innovative education and research. ESHCC is lead partner in the new EIT Culture & Creativity, coordinator of the CultuurCampus New European Bauhaus (NEB) and founding partner in the Rotterdam Arts and Sciences Lab (RASL). One of the EUR researcher in FABRIX is one of the Design Impact Transition (DIT) academics to further transformative research and education in just sustainability fashion transition, has co-founded the 1st academic Minor in Fashion Industry in The Netherlands and co-lead the implementation of three new masters’ courses on fashion and sustainability, entrepreneurship and heritage as part of the Erasmus+ Strategic Partnership project  RE-FRAME FASHION  (labeled “best practice” by the EU)."
+  },
+  {
+    "name": "OSMOS network",
+    "slug": "osmos",
+    "logo": "/partners/osmos.png",
+    "logo_b": "/partners/osmos_b.png",
+    "url": "https://osmosnetwork.com/",
+    "description": "A Dutch NGO specialised in handling complex and dynamic challenges with extensive experience in delivering services to design for change, bring ideas into action, engage communities and share knowledge. OSMOS network brings relevant, validated digital tools in the consortium, and the expertise to adapt and improve these tools for the purpose of this project."
+  },
+  {
+    "name": "Roadmapper",
+    "slug": "roadmapper",
+    "logo": "/partners/roadmapper.png",
+    "logo_b": "/partners/roadmapper_b.png",
+    "url": "https://roadmapper.fr",
+    "description": "A SME with an established reputation in building digital tools and platforms which enable the effective digital transformation and innovation of public and private actors in various sectors. Roadmapper will act as the developer in this project."
+  },
+  {
+    "name": "Municipality of Rotterdam",
+    "slug": "rotterdam",
+    "logo": "/partners/rotterdam.png",
+    "logo_b": "/partners/rotterdam_b.png",
+    "url": "https://www.rotterdam.nl/",
+    "description": "The Municipality of Rotterdam is actively involved in transforming and steering the T&C sector and in initiating and stimulating circular economy strategies and projects. The consortium members of the municipality bring extensive knowledge and direct links to the creative industry and T&C sector, and the relevant key-stakeholders."
+  },
+  {
+    "name": "SOFFA Fashion Factory",
+    "slug": "soffa",
+    "logo": "/partners/soffa.png",
+    "logo_b": "/partners/soffa_b.png",
+    "url": "https://soffa.gr/",
+    "description": "A social cooperative of fashion designers and refugees/migrants tailors, this NGO aims to create sustainable fashion garments with a positive social and environmental impact. Social Fashion Factory brings both the link to the local ecosystem of Athens’ sustainable T&C sector as well as the expertise to mentor manufacturing SMEs to become more socially and environmentally sustainable and competitive."
+  },
+  {
+    "name": "Codecs-TCBL",
+    "slug": "tcbl",
+    "logo": "/partners/tcbl.png",
+    "logo_b": "/partners/tcbl_b.png",
+    "url": "https://tcbl.eu/",
+    "description": "A multidisciplinary working group with rich experience in supporting the radical  transformation of the T&C sector towards sustainability,circularity and localisation. Experts will contribute to vision and ecosystem designing and building, knowledge and outcomes developing and sharing., Cedecs-TCBL is the operational arm of the non-profit TCBL Association, which was founded to continue the work and the network of the successful Horizon 2020 project “TCBL” (Textile, clothing and business labs)."
+  },
+  {
+    "name": "TUD",
+    "slug": "tud",
+    "logo": "/partners/tud.png",
+    "logo_b": "/partners/tud_b.png",
+    "url": "https://www.tudelft.nl/",
+    "description": "Global leader in research and education on urban and regional (design) challenges. TUD brings to FABRIX its expertise in circularity and urban metabolism, spatial planning, co-creation, urban management, digital tools, and research methods in spatial and network sciences. In particular, the Circular Built Environment Hub (CBE hub), bringing together about 100 researchers in the Faculty of Architecture and the Built Environment that focus on the circular economy in all its aspects, will closely be linked to FABRIX. Two of the participating TUD researchers in FABRIX are in the board of the CBE hub."
+  }
+]
