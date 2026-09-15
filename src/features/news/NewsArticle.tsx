@@ -21,13 +21,11 @@ export function NewsArticle({ slug }: { slug: string }) {
         </time>
       </header>
 
+      {/* The cover keeps its own proportions: no fixed height, no crop — an event
+          poster or a portrait photo must show whole, not squeezed or off-centre. */}
       {post.cover && (
-        <div className="mx-auto mb-12 flex max-w-[800px] items-center justify-center px-4 md:px-0">
-          <img
-            src={assetUrl(post.cover, { width: 1600, height: 600, fit: 'cover' })}
-            alt=""
-            className="aspect-[8/3] w-full rounded-3xl object-cover"
-          />
+        <div className="mx-auto mb-12 max-w-[800px] px-4 md:px-0">
+          <img src={assetUrl(post.cover, { width: 1600 })} alt="" className="mx-auto h-auto w-full rounded-3xl" />
         </div>
       )}
 
