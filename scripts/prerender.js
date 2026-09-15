@@ -20,10 +20,10 @@ const dist = resolve(root, "dist");
 const DIRECTUS = (process.env.VITE_DIRECTUS_URL ?? "https://back.fabrixproject.eu").replace(/\/$/, "");
 const SITE = (process.env.SITE_URL ?? "https://fabrixproject.eu").replace(/\/$/, "");
 /*
- * BETA=true while the site is previewed at website.fabrixproject.eu and the
- * old site still serves fabrixproject.eu: every page is noindex and robots.txt
- * disallows all, so search engines never index the preview as duplicate
- * content. Canonicals keep pointing at SITE_URL, the domain that will stay.
+ * BETA=true for a preview on another domain while fabrixproject.eu serves
+ * something else: every page is noindex and robots.txt disallows all, so
+ * search engines never index the preview as duplicate content. Canonicals
+ * keep pointing at SITE_URL, the domain that stays.
  */
 const BETA = process.env.BETA === "true";
 const DEFAULT_DESCRIPTION =

@@ -61,8 +61,12 @@ which runs the CI & Deploy workflow. It reuses the Learning Hub's `GITHUB_DISPAT
 env (`FLOWS_ENV_ALLOW_LIST` in `rdmpr-infra/apps/fabrix-cms`). Failure mode to watch: if the flow breaks,
 Directus says "published" while the site stays frozen — check the Actions tab.
 
-**Beta**: the site is previewed at `https://website.fabrixproject.eu` (GitHub Pages, `public/CNAME`, CNAME
-record at OVH → `fabrix-eu.github.io.`, Directus `CORS_ORIGIN` includes it). `BETA=true` in the workflow
-makes every page `noindex` and `robots.txt` disallow all; canonicals already point at `fabrixproject.eu`.
-Cutover: set `BETA` to `false`, move `public/CNAME` and the Pages domain to `fabrixproject.eu`, repoint the
-apex/`www` records from Vercel to GitHub Pages, and add the origin to `CORS_ORIGIN`.
+**Hosting**: GitHub Pages on the apex **`fabrixproject.eu`** (canonical; `public/CNAME` and the Pages custom
+domain). `www` is a CNAME to `fabrix-eu.github.io.` and Pages redirects it to the apex. DNS is at OVH
+(`ovhcloud domain-zone record … fabrixproject.eu`, then `refresh`): apex A records on the GitHub Pages IPs
+`185.199.108-111.153`. Directus `CORS_ORIGIN` lists both hosts. The site sends HSTS (inherited from the old
+Vercel site, 2 years): a certificate problem is a hard outage for returning visitors, never a warning.
+
+Until 2026-09 the old Next.js site ran on Vercel (apex A `76.76.21.21`, `www` redirected to it). Rollback =
+point both records back there. `BETA=true` in the workflow is for a preview on another domain only (pages
+`noindex`, robots disallow all) — the beta ran at `website.fabrixproject.eu`.

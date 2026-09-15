@@ -37,9 +37,10 @@ jobs:
           VITE_PLATFORM_URL: https://platform.fabrixproject.eu
           VITE_MATOMO_URL: ${{ vars.MATOMO_URL }}
           VITE_MATOMO_SITE_ID: ${{ vars.MATOMO_SITE_ID }}
+          # Canonical host: the apex. GitHub Pages redirects www to it.
           SITE_URL: https://fabrixproject.eu
-          # Preview at website.fabrixproject.eu (public/CNAME): noindex until the cutover.
-          BETA: 'true'
+          # 'true' only for a preview on another domain: every page noindex, robots disallow all.
+          BETA: 'false'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
