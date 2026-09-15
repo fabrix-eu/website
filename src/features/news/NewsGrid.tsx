@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
-import { assetUrl } from '../../lib/directus';
+import { BlurImage } from '../../components/BlurImage';
 import { newsListQueryOptions } from './queries';
 
 /** The News block: all articles on /news, the latest few on the home page. */
@@ -18,11 +18,13 @@ export function NewsGrid({ limit }: { limit?: number }) {
         {shown.map((post) => (
           <li key={post.id} className="px-2 md:px-0">
             <Link to="/news/$slug" params={{ slug: post.slug }} className="group relative block h-48 w-full md:h-64">
-              <img
-                src={assetUrl(post.cover, { width: 900, height: 520, fit: 'cover' })}
-                alt=""
-                loading="lazy"
-                className="absolute inset-0 h-full w-full rounded-3xl object-cover"
+              <BlurImage
+                id={post.cover}
+                width={900}
+                height={520}
+                fit="cover"
+                frameClassName="absolute inset-0 rounded-3xl"
+                className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 rounded-3xl bg-linear-to-b from-transparent to-darkblue opacity-70 transition-opacity group-hover:opacity-80" />
               {post.pinned && (

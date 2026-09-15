@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Markdown } from '../../components/Markdown';
-import { assetUrl } from '../../lib/directus';
+import { BlurImage } from '../../components/BlurImage';
 import { useDocumentTitle } from '../../lib/useDocumentTitle';
 import { cityQueryOptions } from './queries';
 
@@ -24,10 +24,14 @@ export function CityPage({ slug }: { slug: string }) {
 
       {city.cover && (
         <div className="relative z-20 -mt-16 px-6 lg:px-12">
-          <img
-            src={assetUrl(city.cover, { width: 2400, quality: 85 })}
-            alt=""
-            className="mx-auto h-auto w-full max-w-6xl rounded-3xl object-cover"
+          <BlurImage
+            id={city.cover.id}
+            width={2400}
+            quality={85}
+            dims={city.cover}
+            loading="eager"
+            frameClassName="mx-auto w-full max-w-6xl rounded-3xl"
+            className="h-auto w-full"
           />
         </div>
       )}

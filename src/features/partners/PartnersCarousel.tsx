@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Carousel } from '../../components/Carousel';
-import { assetUrl } from '../../lib/directus';
+import { BlurImage } from '../../components/BlurImage';
 import { websitePartnersQueryOptions } from './queries';
 
 /** "Meet the partners" on the home page: each card links to the partner's entry on /partners. */
@@ -22,11 +22,13 @@ export function PartnersCarousel() {
           >
             <div className="relative flex h-64 w-full flex-col items-center justify-between rounded-3xl bg-black">
               <h3 className="block w-full p-4 text-2xl font-bold text-white">{partner.name}</h3>
-              <img
-                src={assetUrl(partner.logo_mono ?? partner.logo, { width: 600, quality: 90 })}
-                alt=""
-                loading="lazy"
-                className="min-h-0 w-full flex-1 object-contain"
+              <BlurImage
+                id={partner.logo_mono ?? partner.logo}
+                width={600}
+                quality={90}
+                blur={false}
+                frameClassName="min-h-0 w-full flex-1"
+                className="h-full w-full object-contain"
               />
             </div>
           </Link>

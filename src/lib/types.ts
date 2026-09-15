@@ -23,7 +23,9 @@ export interface NewsCard {
   cover: string | null;
 }
 
-export interface News extends NewsCard {
+/** On the article page the cover comes with its pixel size, to reserve its box before it loads. */
+export interface News extends Omit<NewsCard, 'cover'> {
+  cover: FileRef | null;
   body: string | null;
   body_2: string | null;
   gallery: GalleryItem[];
@@ -45,7 +47,7 @@ export interface City {
   slug: string;
   name: string;
   intro: string | null;
-  cover: string | null;
+  cover: FileRef | null;
   background: string | null;
   about_title: string | null;
   about: string | null;

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import clsx from 'clsx';
-import { assetUrl } from '../../lib/directus';
+import { BlurImage } from '../../components/BlurImage';
 import type { Partner } from '../../lib/types';
 
 /**
@@ -57,13 +57,14 @@ export function PartnerRow({ partner, index }: { partner: Partner; index: number
       </div>
       <div className={clsx('flex-none md:mx-8 md:min-w-[200px]', even ? 'md:order-2' : 'md:order-1')}>
         <a href={partner.url ?? undefined} target="_blank" rel="noreferrer" aria-label={`${partner.name} website`}>
-          <img
-            src={assetUrl(partner.logo, { width: 400, quality: 90 })}
+          <BlurImage
+            id={partner.logo}
+            width={400}
+            quality={90}
+            blur={false}
             alt={partner.name}
-            width={200}
-            height={133}
-            loading="lazy"
-            className="bg-white"
+            frameClassName="w-[200px] bg-white"
+            className="h-auto w-full"
           />
         </a>
       </div>

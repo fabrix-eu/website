@@ -7,6 +7,7 @@ const CARD_FIELDS = ['id', 'slug', 'title', 'date', 'pinned', 'cover'];
 const gallery = (field: string) => [
   `${field}.id`, `${field}.sort`,
   `${field}.directus_files_id.id`, `${field}.directus_files_id.title`, `${field}.directus_files_id.description`,
+  `${field}.directus_files_id.width`, `${field}.directus_files_id.height`,
 ];
 
 /** Pinned first, then newest first — the order of the home page and /news. */
@@ -25,7 +26,11 @@ export const newsArticleQueryOptions = (slug: string) =>
     queryFn: async () => {
       const rows = (await directus.request(
         readItems('news', {
-          fields: [...CARD_FIELDS, 'body', 'body_2', ...gallery('gallery'), ...gallery('gallery_2')],
+          fields: [
+            ...CARD_FIELDS.filter((field) => field !== 'cover'),
+            'cover.id', 'cover.width', 'cover.height',
+            'body', 'body_2', ...gallery('gallery'), ...gallery('gallery_2'),
+          ],
           filter: { ...PUBLISHED, slug: { _eq: slug } },
           limit: 1,
         }),

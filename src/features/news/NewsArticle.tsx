@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { RichHtml } from '../../components/RichHtml';
-import { assetUrl } from '../../lib/directus';
+import { BlurImage } from '../../components/BlurImage';
 import { useDocumentTitle } from '../../lib/useDocumentTitle';
 import { newsArticleQueryOptions } from './queries';
 import { NewsGallery } from './NewsGallery';
@@ -25,7 +25,14 @@ export function NewsArticle({ slug }: { slug: string }) {
           poster or a portrait photo must show whole, not squeezed or off-centre. */}
       {post.cover && (
         <div className="mx-auto mb-12 max-w-[800px] px-4 md:px-0">
-          <img src={assetUrl(post.cover, { width: 1600 })} alt="" className="mx-auto h-auto w-full rounded-3xl" />
+          <BlurImage
+            id={post.cover.id}
+            width={1600}
+            dims={post.cover}
+            loading="eager"
+            frameClassName="mx-auto rounded-3xl"
+            className="h-auto w-full"
+          />
         </div>
       )}
 
