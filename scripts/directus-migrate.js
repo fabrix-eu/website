@@ -8,6 +8,11 @@
  * owns — once editors start working in Directus, do not run it again.
  *
  *   npm run directus:migrate
+ *
+ * While DatoCMS is still the old site's CMS, an article edited there can be
+ * re-imported on its own — everything else is left untouched:
+ *
+ *   npm run directus:migrate -- --news=rotterdam-conference[,other-slug]
  */
 import { readFile } from "node:fs/promises";
 import { basename, dirname, extname, resolve } from "node:path";
@@ -75,6 +80,11 @@ const folders = {
   cities: await folder("Cities", website),
   news: await folder("News", website),
 };
+
+/** `--news=a,b` re-imports only those DatoCMS articles and skips every other section. */
+const ONLY_NEWS = process.argv.find((arg) => arg.startsWith("--news="))?.slice("--news=".length).split(",").filter(Boolean);
+
+if (!ONLY_NEWS) {
 
 // ── Partners (shared with the Learning Hub) ─────────────────────────────────
 
@@ -147,9 +157,11 @@ for (const page of await json("legal")) {
   console.log(`  ✓ ${page.slug}`);
 }
 
+} // end of the sections skipped by --news
+
 // ── News, from DatoCMS ──────────────────────────────────────────────────────
 
-console.log("→ news (DatoCMS)");
+console.log(ONLY_NEWS ? `→ news (DatoCMS): ${ONLY_NEWS.join(", ")} only` : "→ news (DatoCMS)");
 if (!process.env.DATOCMS_TOKEN) throw new Error("DATOCMS_TOKEN is not set.");
 
 const image = "url alt title";
@@ -188,7 +200,11 @@ async function setGallery(junction, newsId, images) {
   }
 }
 
-for (const post of data.allPosts) {
+const posts = ONLY_NEWS ? data.allPosts.filter((post) => ONLY_NEWS.includes(post.slug)) : data.allPosts;
+const missing = (ONLY_NEWS ?? []).filter((slug) => !posts.some((post) => post.slug === slug));
+if (missing.length) throw new Error(`Not found in DatoCMS: ${missing.join(", ")}`);
+
+for (const post of posts) {
   const id = await upsert("news", "slug", post.slug, {
     status: "published",
     title: post.title,
@@ -203,4 +219,4 @@ for (const post of data.allPosts) {
   console.log(`  ✓ ${post.slug}`);
 }
 
-console.log(`\n${data.allPosts.length} news migrated into ${directusUrl}.`);
+console.log(`\n${posts.length} news migrated into ${directusUrl}.`);
