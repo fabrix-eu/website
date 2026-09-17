@@ -9,9 +9,11 @@ to static HTML, deployed on GitHub Pages.
 
 - **Content**: Directus at `back.fabrixproject.eu` — the **same instance as the Learning Hub**, read through
   the Public role. No token in the bundle.
-- **Design**: the old site's look, carried over unchanged (Archia + IBM Plex Sans, dark blue). The FABRIX
-  design system tokens (`fx-*`, from `platform.fabrixproject.eu/design`) sit alongside in `src/index.css`; a
-  move to the full system is a token swap. Do not re-pick token values here.
+- **Design**: the FABRIX design system (`fx-*` tokens in `src/index.css`, from `platform.fabrixproject.eu/design`
+  — Plus Jakarta Sans, violet, white/panel grounds), the same as the Learning Hub and the platform. Do not
+  re-pick token values here. Two things are kept from the first site on purpose: the **cover** (city photo +
+  network mesh) in `CoverPanel` — the home hero and every `PageHeader` — and the **halo** that closes every
+  page in `PageEnd`. Shared pieces: `Section.tsx` (`Eyebrow`, `SectionHeading`, `Container`, button classes).
 
 ## Directus: what this repo owns
 

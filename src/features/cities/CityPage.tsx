@@ -1,95 +1,79 @@
+import type { ReactNode } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Markdown } from '../../components/Markdown';
 import { BlurImage } from '../../components/BlurImage';
+import { PageHeader } from '../../components/PageHeader';
+import { Container, Eyebrow } from '../../components/Section';
 import { useDocumentTitle } from '../../lib/useDocumentTitle';
 import { cityQueryOptions } from './queries';
 
-const PROSE = 'font-plex prose prose-lg prose-gray max-w-none leading-relaxed text-gray-700';
-const RULE = 'mb-6 h-0.5 w-16 bg-linear-to-r from-purple-500 to-pink-500';
-const HEADING = 'text-4xl font-bold text-gray-900 lg:text-5xl';
+const PROSE = 'prose max-w-none prose-p:text-fx-lead prose-li:text-fx-lead';
+
+/** Title on one side (sticky under the header), Markdown on the other. */
+function Split({ title, children, flip = false }: { title: string | null; children: ReactNode; flip?: boolean }) {
+  return (
+    <section className="grid gap-6 border-t border-fx-line py-14 first:border-t-0 lg:grid-cols-12 lg:gap-12">
+      <div className={flip ? 'lg:order-2 lg:col-span-5' : 'lg:col-span-5'}>
+        <h2 className="text-fx-title text-fx-ink sm:text-fx-display lg:sticky lg:top-[calc(var(--spacing-topbar)+2rem)]">
+          {title}
+        </h2>
+      </div>
+      <div className={`${PROSE} lg:col-span-7`}>{children}</div>
+    </section>
+  );
+}
 
 export function CityPage({ slug }: { slug: string }) {
   const city = useSuspenseQuery(cityQueryOptions(slug)).data!;
   useDocumentTitle(city.name, city.intro ?? undefined);
 
   return (
-    <div className="min-h-screen">
-      <section className="relative px-6 py-24 lg:px-12 lg:py-32">
-        <div className="mx-auto mb-6 max-w-6xl">
-          <div className="mb-4 h-0.5 w-16 bg-darkblue/60" />
-          <h1 className="mb-6 text-5xl font-bold text-darkblue lg:text-7xl">{city.name}</h1>
-          <p className="font-plex max-w-4xl text-xl leading-relaxed text-darkblue/90 lg:text-2xl">{city.intro}</p>
-        </div>
-      </section>
+    <>
+      <PageHeader eyebrow="City" title={city.name}>
+        {city.intro && <p>{city.intro}</p>}
+      </PageHeader>
 
       {city.cover && (
-        <div className="relative z-20 -mt-16 px-6 lg:px-12">
+        <Container className="pt-6">
           <BlurImage
             id={city.cover.id}
             width={2400}
             quality={85}
             dims={city.cover}
             loading="eager"
-            frameClassName="mx-auto w-full max-w-6xl rounded-3xl"
+            frameClassName="w-full rounded-fx-xl"
             className="h-auto w-full"
           />
-        </div>
+        </Container>
       )}
 
-      <div className="bg-linear-to-b from-gray-50 to-white">
-        <div className="mx-auto max-w-6xl px-6 py-24 lg:px-12">
-          <section className="mb-32 grid gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-5">
-              <div className="sticky top-8">
-                <div className={RULE} />
-                <h2 className={`${HEADING} mb-8`}>{city.about_title}</h2>
-              </div>
-            </div>
-            <div className={`${PROSE} lg:col-span-7`}>
-              <Markdown>{city.about}</Markdown>
-            </div>
-          </section>
+      {/*
+        `cities.background` is not rendered: on the old site its band had
+        no height (`h-100` did not exist in Tailwind v3), so visitors never
+        saw it. Showing it would change the page — a design decision, not a
+        port. The field stays in Directus for when that decision is made.
+      */}
+      <Container className="pt-6">
+        <Split title={city.about_title}>
+          <Markdown>{city.about}</Markdown>
+        </Split>
+        <Split title="The Stakeholders" flip>
+          <Markdown>{city.stakeholders}</Markdown>
+        </Split>
 
-          {/*
-            `cities.background` is not rendered: on the old site its band had
-            no height (`h-100` did not exist in Tailwind v3), so visitors never
-            saw it. Showing it would change the page — a design decision, not a
-            port. The field stays in Directus for when that decision is made.
-          */}
-
-          <section className="mb-32 grid gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className={`${PROSE} lg:col-span-7 lg:col-start-1`}>
-              <Markdown>{city.stakeholders}</Markdown>
+        <section className="mt-6 rounded-fx-xl border border-fx-line bg-fx-panel p-6 sm:p-12">
+          <div className="max-w-3xl">
+            <Eyebrow>Get in touch</Eyebrow>
+            <h2 className="text-fx-title text-fx-ink sm:text-fx-display">Contact Partners in {city.name}</h2>
+            <div className={`${PROSE} mt-4`}>
+              <Markdown>{city.contact_intro}</Markdown>
             </div>
-            <div className="lg:col-span-5 lg:col-start-8">
-              <div className="sticky top-8">
-                <div className={RULE} />
-                <h2 className={HEADING}>The Stakeholders</h2>
-              </div>
-            </div>
-          </section>
-
-          <section className="relative">
-            <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-purple-100 via-pink-50 to-purple-50" />
-            <div className="relative z-10 p-8 md:p-12 lg:p-16">
-              <div className="mb-16 text-center">
-                <div className={`${RULE} mx-auto`} />
-                <h2 className={`${HEADING} mb-6`}>Contact Partners in {city.name}</h2>
-                <div className="font-plex mx-auto max-w-3xl text-lg leading-relaxed text-gray-700">
-                  <Markdown>{city.contact_intro}</Markdown>
-                </div>
-              </div>
-              <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-lg lg:p-12">
-                <div className={PROSE}>
-                  <Markdown>{city.contacts}</Markdown>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <div className="h-32 bg-linear-to-b from-white to-purple-50" />
-    </div>
+          </div>
+          <div className={`${PROSE} mt-8 rounded-fx border border-fx-line bg-white p-6 sm:p-10`}>
+            <Markdown>{city.contacts}</Markdown>
+          </div>
+        </section>
+      </Container>
+    </>
   );
 }

@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import clsx from 'clsx';
 import { BlurImage } from '../../components/BlurImage';
 import type { Partner } from '../../lib/types';
 
 /**
- * One consortium member on /partners. Rows alternate sides and colours; the
- * description is clamped to four lines with a toggle, shown only when it
- * actually overflows at the current width.
+ * One consortium member on /partners, as a card. The description is clamped
+ * to five lines with a toggle, shown only when it actually overflows at the
+ * current width. The home carousel links here by `#key`.
  */
-export function PartnerRow({ partner, index }: { partner: Partner; index: number }) {
+export function PartnerRow({ partner }: { partner: Partner }) {
   const text = useRef<HTMLParagraphElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [overflows, setOverflows] = useState(false);
@@ -24,50 +24,47 @@ export function PartnerRow({ partner, index }: { partner: Partner; index: number
     return () => observer.disconnect();
   }, [expanded]);
 
-  const even = index % 2 === 0;
-
   return (
-    <div
+    <article
       id={partner.key}
-      className="mx-4 my-8 flex scroll-mt-8 flex-col gap-6 p-8 text-lg leading-normal text-darkblue odd:bg-owncyan even:bg-ownindigo md:flex-row md:gap-0"
+      className="flex scroll-mt-[calc(var(--spacing-topbar)+1rem)] flex-col rounded-fx border border-fx-line bg-white p-6 target:border-fx-violet-border target:ring-4 target:ring-fx-violet-soft"
     >
-      <div className={clsx(even ? 'md:order-1 md:pl-8' : 'md:order-2 md:pr-8')}>
-        <h3 className="mb-4 text-xl leading-tight">{partner.name}</h3>
-        <div className="flex items-start gap-2">
-          <p ref={text} id={`${partner.key}-blurb`} className={clsx('font-plex text-xs', !expanded && 'line-clamp-4')}>
-            {partner.blurb}
-          </p>
-          {overflows && (
-            <button
-              type="button"
-              onClick={() => setExpanded((e) => !e)}
-              aria-expanded={expanded}
-              aria-controls={`${partner.key}-blurb`}
-              aria-label={expanded ? 'Show less' : 'Read more'}
-              className="mt-2 flex-none"
-            >
-              {expanded ? (
-                <ChevronUp className="size-6 rounded-full border border-darkblue" />
-              ) : (
-                <ChevronDown className="size-6 rounded-full border border-darkblue" />
-              )}
-            </button>
-          )}
-        </div>
+      <div className="flex h-20 items-center">
+        <BlurImage
+          id={partner.logo}
+          width={400}
+          quality={90}
+          blur={false}
+          alt={partner.name}
+          frameClassName="h-full w-[220px] max-w-full"
+          className="size-full object-contain object-left"
+        />
       </div>
-      <div className={clsx('flex-none md:mx-8 md:min-w-[200px]', even ? 'md:order-2' : 'md:order-1')}>
-        <a href={partner.url ?? undefined} target="_blank" rel="noreferrer" aria-label={`${partner.name} website`}>
-          <BlurImage
-            id={partner.logo}
-            width={400}
-            quality={90}
-            blur={false}
-            alt={partner.name}
-            frameClassName="w-[200px] bg-white"
-            className="h-auto w-full"
-          />
-        </a>
+      <h2 className="mt-5 text-fx-heading text-fx-ink">{partner.name}</h2>
+      <p ref={text} id={`${partner.key}-blurb`} className={clsx('mt-2 text-fx-body text-fx-ink2', !expanded && 'line-clamp-5')}>
+        {partner.blurb}
+      </p>
+      <div className="mt-auto flex items-center justify-between gap-4 pt-4">
+        {overflows ? (
+          <button
+            type="button"
+            onClick={() => setExpanded((e) => !e)}
+            aria-expanded={expanded}
+            aria-controls={`${partner.key}-blurb`}
+            className="text-fx-body font-bold text-fx-ink hover:text-fx-violet"
+          >
+            {expanded ? 'Show less' : 'Read more'}
+          </button>
+        ) : (
+          <span />
+        )}
+        {partner.url && (
+          <a href={partner.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-fx-body font-bold text-fx-violet hover:underline">
+            Website
+            <ArrowUpRight className="size-4" aria-hidden />
+          </a>
+        )}
       </div>
-    </div>
+    </article>
   );
 }

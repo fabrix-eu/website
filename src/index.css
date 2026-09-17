@@ -3,54 +3,29 @@
 @plugin "@tailwindcss/forms";
 
 /*
- * Two token sets live side by side.
+ * The FABRIX design system (`fx-*`), transcribed from the platform's /design
+ * page (platform-front/src/index.css) — the system the Learning Hub and the
+ * platform run on. Take the values from /design, never re-pick them here.
  *
- * 1. The website's own look — Archia headings, IBM Plex Sans text, the dark
- *    blue palette. Carried over unchanged from the Next.js site: the redesign
- *    is not this project's job. Names are kept (`darkblue`, `owncyan`…) so the
- *    markup reads the same as before.
- *
- * 2. The FABRIX design system (`fx-*`), transcribed from the platform's
- *    /design page (platform-front/src/index.css). Structure — radii, the text
- *    scale, lines — is taken from here wherever it does not change what the
- *    visitor sees, so a later move to the full system is a token swap, not a
- *    rewrite. Take the values from /design, never re-pick them here.
+ * The site keeps two things from its first look: the cover (city photo +
+ * network mesh) in the hero and page headers, and the soft halo that closes
+ * every page. See CoverPanel and PageEnd.
  */
 
 @font-face {
-  font-family: "Archia";
-  src: url("/fonts/Archia-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Sans";
-  src: url("/fonts/IBMPlexSans-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Sans";
-  src: url("/fonts/IBMPlexSans-Bold.woff2") format("woff2");
-  font-weight: 600 700;
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/PlusJakartaSans-Variable.woff2") format("woff2-variations");
+  font-weight: 200 800;
   font-display: swap;
 }
 
 @theme {
-  /* ── Website ─────────────────────────────────────────────────────────── */
-  --font-sans: "Archia", system-ui, sans-serif;
-  --font-archia: "Archia", system-ui, sans-serif;
-  --font-plex: "IBM Plex Sans", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-fx: "Plus Jakarta Sans", system-ui, sans-serif;
 
-  --color-darkblue: #141357;
-  --color-lightblue: #7c98b9;
-  --color-almostblack: #012025;
-  --color-owncyan: #e8f4f6;
-  --color-ownindigo: #dcdbfc;
+  /* Height of the shared header, the same on every FABRIX surface. */
+  --spacing-topbar: 68px;
 
-  /* ── FABRIX design system ────────────────────────────────────────────── */
   --color-fx-ground: #ffffff;
   --color-fx-panel: #faf9fc;
   --color-fx-paper: #ffffff;
@@ -62,8 +37,16 @@
   --color-fx-violet: #6c4cf1;
   --color-fx-violet-soft: #f1edff;
   --color-fx-violet-border: #ded5ff;
+  --color-fx-teal: #1d9c99;
   --color-fx-green: #2a9d63;
+  --color-fx-amber: #c07d15;
   --color-fx-rose: #cb4a86;
+  --color-fx-green-soft: #e4f4ec;
+  --color-fx-amber-soft: #fbeede;
+  --color-fx-indigo-soft: #eceaf9;
+
+  /* The lavender ground of the two-cities map (/images/2_cities_background.webp), so its panel has no seam. */
+  --color-cities-map: #dcdbfe;
 
   --radius-fx-sm: 9px;
   --radius-fx: 14px;
@@ -71,6 +54,25 @@
   --radius-fx-xl: 28px;
   --radius-fx-action: 11px;
 
+  --text-fx-hero: 52px;
+  --text-fx-hero--line-height: 0.98;
+  --text-fx-hero--letter-spacing: -0.035em;
+  --text-fx-hero--font-weight: 800;
+  --text-fx-display: 36px;
+  --text-fx-display--line-height: 1.02;
+  --text-fx-display--letter-spacing: -0.03em;
+  --text-fx-display--font-weight: 800;
+  --text-fx-title: 26px;
+  --text-fx-title--line-height: 1.12;
+  --text-fx-title--letter-spacing: -0.025em;
+  --text-fx-title--font-weight: 800;
+  --text-fx-heading: 18px;
+  --text-fx-heading--line-height: 1.28;
+  --text-fx-heading--letter-spacing: -0.015em;
+  --text-fx-heading--font-weight: 700;
+
+  --text-fx-lead: 16px;
+  --text-fx-lead--line-height: 1.55;
   --text-fx-body: 14px;
   --text-fx-body--line-height: 1.55;
   --text-fx-small: 12.5px;
@@ -84,8 +86,8 @@
 @layer base {
   html {
     font-family: var(--font-sans);
-    color: var(--color-darkblue);
-    background: #ffffff;
+    color: var(--color-fx-ink);
+    background: var(--color-fx-ground);
   }
 
   /*
@@ -114,6 +116,35 @@
   .prose img {
     border-radius: var(--radius-fx);
   }
+}
+
+/*
+ * Editor content (news HTML, city and legal Markdown) in the system's ink and
+ * violet. Unlayered on purpose: the typography plugin sets the same variables
+ * on .prose later in the cascade, and would win from inside a layer.
+ */
+.prose {
+  --tw-prose-body: var(--color-fx-ink2);
+  --tw-prose-headings: var(--color-fx-ink);
+  --tw-prose-lead: var(--color-fx-ink2);
+  --tw-prose-links: var(--color-fx-violet);
+  --tw-prose-bold: var(--color-fx-ink);
+  --tw-prose-counters: var(--color-fx-muted);
+  --tw-prose-bullets: var(--color-fx-line2);
+  --tw-prose-hr: var(--color-fx-line);
+  --tw-prose-quotes: var(--color-fx-ink);
+  --tw-prose-quote-borders: var(--color-fx-violet-border);
+  --tw-prose-captions: var(--color-fx-muted);
+  --tw-prose-th-borders: var(--color-fx-line2);
+  --tw-prose-td-borders: var(--color-fx-line);
+}
+.prose :where(h1, h2, h3) {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.prose :where(a) {
+  font-weight: 600;
+  text-underline-offset: 3px;
 }
 
 @utility scrollbar-hide {

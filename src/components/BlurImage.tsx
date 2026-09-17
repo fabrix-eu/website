@@ -52,7 +52,7 @@ export function BlurImage({ id, width, height, fit, quality, dims, blur = true, 
   const displayed = /(^|\s)(inline-block|inline-flex|flex|grid|hidden)(\s|$)/.test(frame);
 
   return (
-    <span className={clsx('overflow-hidden', !positioned && 'relative', !displayed && 'block', blur && !loaded && 'bg-owncyan', frame)}>
+    <span className={clsx('overflow-hidden', !positioned && 'relative', !displayed && 'block', blur && !loaded && 'bg-fx-violet-soft', frame)}>
       {placeholder && !loaded && (
         <img src={placeholder} alt="" aria-hidden className="absolute inset-0 h-full w-full scale-110 object-cover blur-xl" />
       )}

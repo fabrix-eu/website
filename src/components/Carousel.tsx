@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const ARROW =
+  'flex rounded-fx-action border border-fx-line2 bg-white p-2.5 text-fx-ink transition hover:border-fx-violet-border hover:text-fx-violet disabled:pointer-events-none disabled:opacity-40';
 
 /**
- * Horizontal scroll-snap strip with the FABRIX arrow buttons. Children size
- * themselves (one card on mobile, three from md). An arrow is drawn hollow
- * when there is nothing more to scroll that way.
+ * Horizontal scroll-snap strip with previous / next buttons. Children size
+ * themselves. An arrow is disabled when there is nothing more to scroll that way.
  */
 export function Carousel({ children, gap, label }: { children: ReactNode; gap: number; label: string }) {
   const strip = useRef<HTMLDivElement>(null);
@@ -33,18 +36,20 @@ export function Carousel({ children, gap, label }: { children: ReactNode; gap: n
   };
 
   return (
-    <div className="relative z-50 container mx-auto pt-2" role="region" aria-roledescription="carousel" aria-label={label}>
+    <div role="region" aria-roledescription="carousel" aria-label={label}>
       <div ref={strip} className="scrollbar-hide flex w-full snap-x snap-mandatory overflow-x-auto scroll-smooth" style={{ gap }}>
         {children}
       </div>
-      <div className="my-8 flex justify-center space-x-4">
-        <button type="button" onClick={() => scroll(-1)} disabled={atStart} aria-label="Previous">
-          <img src={atStart ? '/icons/arrow_left.png' : '/icons/arrow_left_filled.png'} alt="" width={64} height={64} />
-        </button>
-        <button type="button" onClick={() => scroll(1)} disabled={atEnd} aria-label="Next">
-          <img src={atEnd ? '/icons/arrow_left.png' : '/icons/arrow_left_filled.png'} alt="" width={64} height={64} className="mt-2 rotate-180" />
-        </button>
-      </div>
+      {!(atStart && atEnd) && (
+        <div className="mt-5 flex justify-end gap-2">
+          <button type="button" onClick={() => scroll(-1)} disabled={atStart} aria-label="Previous" className={ARROW}>
+            <ChevronLeft className="size-5" aria-hidden />
+          </button>
+          <button type="button" onClick={() => scroll(1)} disabled={atEnd} aria-label="Next" className={ARROW}>
+            <ChevronRight className="size-5" aria-hidden />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

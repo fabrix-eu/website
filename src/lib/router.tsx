@@ -32,7 +32,7 @@ const homeRoute = createRoute({
   component: HomePage,
 });
 
-/** Every page but the home shares the same chrome: nav on white, footer, background shapes. */
+/** Every page but the home shares the same chrome: the shared header, then the halo and the footer. */
 const contentRoute = createRoute({ getParentRoute: () => rootRoute, id: 'content', component: ContentLayout });
 
 // Paths stay literal in each createRoute call: a helper taking `path: string`

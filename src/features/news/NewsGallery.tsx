@@ -10,20 +10,22 @@ export function NewsGallery({ items }: { items: GalleryItem[] }) {
   if (!photos.length) return null;
 
   return (
-    <Carousel gap={16} label="Photos">
-      {photos.map((photo) => (
-        <div key={photo.id} className="inline-flex w-full flex-none snap-start md:w-[calc(33%-0.4rem)]">
-          <BlurImage
-            id={photo.id}
-            width={800}
-            height={576}
-            fit="cover"
-            alt={photo.description ?? photo.title ?? ''}
-            frameClassName="h-72 w-full rounded-xl"
-            className="h-full w-full object-cover"
-          />
-        </div>
-      ))}
-    </Carousel>
+    <div className="mx-auto mt-8 max-w-4xl px-5">
+      <Carousel gap={16} label="Photos">
+        {photos.map((photo) => (
+          <div key={photo.id} className="inline-flex w-full flex-none snap-start md:w-[calc(50%-8px)]">
+            <BlurImage
+              id={photo.id}
+              width={800}
+              height={576}
+              fit="cover"
+              alt={photo.description ?? photo.title ?? ''}
+              frameClassName="h-72 w-full rounded-fx"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        ))}
+      </Carousel>
+    </div>
   );
 }
