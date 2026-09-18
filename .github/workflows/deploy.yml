@@ -35,8 +35,11 @@ jobs:
         env:
           VITE_DIRECTUS_URL: https://back.fabrixproject.eu
           VITE_PLATFORM_URL: https://platform.fabrixproject.eu
-          VITE_MATOMO_URL: ${{ vars.MATOMO_URL }}
-          VITE_MATOMO_SITE_ID: ${{ vars.MATOMO_SITE_ID }}
+          # Same Matomo as the old Vercel site (site 4) and the platform (site 3).
+          # Written here, not in repo variables: unset variables silently built a
+          # site with no analytics at all, and nothing said so.
+          VITE_MATOMO_URL: https://stats.daysplit.com/
+          VITE_MATOMO_SITE_ID: "4"
           # Canonical host: the apex. GitHub Pages redirects www to it.
           SITE_URL: https://fabrixproject.eu
           # 'true' only for a preview on another domain: every page noindex, robots disallow all.
