@@ -3,8 +3,8 @@ import { PLATFORM_URL } from '../../lib/directus';
 
 export const LEARN_URL = 'https://learn.fabrixproject.eu';
 
-/** The open data surface. Not live yet: while null, the home page shows it as "Soon". */
-export const DATA_URL: string | null = null;
+/** The data surface: the platform's public Data page (what FABRIX holds, and the way in). */
+export const DATA_URL = `${PLATFORM_URL}/data`;
 
 type Internal = { label: string; link: LinkProps };
 

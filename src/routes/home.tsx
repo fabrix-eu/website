@@ -30,19 +30,12 @@ function Hero() {
           Find out more
           <ArrowRight className="size-4" aria-hidden />
         </Link>
-        {SURFACE_LINKS.map((surface) =>
-          surface.href ? (
-            <a key={surface.label} href={surface.href} className={BUTTON_SECONDARY}>
-              {surface.label}
-              <ArrowUpRight className="size-4 text-fx-muted" aria-hidden />
-            </a>
-          ) : (
-            <span key={surface.label} className={`${BUTTON_SECONDARY} pointer-events-none text-fx-muted`} aria-disabled>
-              {surface.label}
-              <span className="rounded-full bg-fx-violet-soft px-2 py-0.5 text-fx-label text-fx-violet uppercase">Soon</span>
-            </span>
-          ),
-        )}
+        {SURFACE_LINKS.map((surface) => (
+          <a key={surface.label} href={surface.href} className={BUTTON_SECONDARY}>
+            {surface.label}
+            <ArrowUpRight className="size-4 text-fx-muted" aria-hidden />
+          </a>
+        ))}
       </div>
     </CoverPanel>
   );
