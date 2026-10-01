@@ -39,6 +39,16 @@ export function AboutPage() {
             designed to be circular, innovative, adaptive, just, and regenerative?
           </p>
         </Split>
+        <Split title="Project Summary Video">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/gWfIgaBT03U"
+            title="FABRIX project summary video"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </Split>
         <Split title="Why change is imperative">
           <p>
             The textile and clothing sector is one of the EU’s most innovative and economically important sectors just
